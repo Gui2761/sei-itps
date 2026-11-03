@@ -536,9 +536,9 @@
             const qtdUrl = params.get('qtd');
             const unidadeUrl = params.get('unidade');
 
-            if (procUrl && itemUrl) {
+            if (procUrl) {
                 docState.procNum = procUrl;
-                docState.itemDesc = itemUrl;
+                docState.itemDesc = itemUrl || 'Contratação Pública / Vigência Contratual ITPS';
                 docState.valorStr = valorUrl || '—';
                 docState.setorStr = setorUrl || 'ITPS';
                 docState.codigoStr = codigoUrl || '—';
@@ -548,13 +548,13 @@
 
                 document.getElementById('sei-search-input').value = procUrl;
                 document.getElementById('tree-proc-num').innerText = '📁 ' + procUrl;
-                document.getElementById('tree-proc-spec').innerText = 'Especificação: ' + itemUrl;
-                document.getElementById('tree-dfd-name').innerText = `DFD 2027 (Nº ${docState.dfdNum})`;
+                document.getElementById('tree-proc-spec').innerText = 'Especificação: ' + docState.itemDesc;
+                document.getElementById('tree-dfd-name').innerText = `DFD ${new Date().getFullYear()} (Nº ${docState.dfdNum})`;
 
                 const select = document.getElementById('select-processo-sei');
                 const opt = document.createElement('option');
                 opt.value = 'CUSTOM';
-                opt.innerText = `${procUrl} [${itemUrl}]`;
+                opt.innerText = `${procUrl} [${docState.itemDesc}]`;
                 opt.selected = true;
                 select.prepend(opt);
             }
