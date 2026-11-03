@@ -65,10 +65,11 @@ def status():
         "timestamp": datetime.now().isoformat()
     }
 
-@app.get("/api/sei/unidades")
-def listar_unidades(mock_mode: Optional[bool] = False):
-    client = SEISergipeClient(mock_mode=mock_mode)
-    return client.listar_unidades()
+@app.get("/api/sei/processo/status")
+@app.get("/api/sei/processo/{numero_processo:path}/status")
+def consultar_status(numero_processo: Optional[str] = None, protocolo: Optional[str] = None):
+    proc = protocolo or numero_processo or ""
+    return sei_client.consultar_procedimento(protocolo_procedimento=proc)
 
 @app.post("/api/sei/pca/gerar-processo")
 def gerar_processo(req: GerarProcessoSEIRequest):
