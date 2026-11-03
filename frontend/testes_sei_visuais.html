@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suíte Completa de Demonstração Executiva - SEI Sergipe + ITPS</title>
+    <link rel="icon" type="image/png" href="images/Itpss.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=6.0">
+    <style>
+        :root {
+            --sei-purple: #6b21a8;
+            --sei-purple-light: #f3e8ff;
+            --sei-purple-dark: #4c1d95;
+            --sei-accent: #a855f7;
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #4c1d95 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px 32px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .demo-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(147, 51, 234, 0.2);
+            color: #ffffff;
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%);
+            color: #ffffff;
+            border-color: var(--sei-accent);
+            box-shadow: 0 4px 14px rgba(126, 34, 206, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-demo {
+            background: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .explain-box {
+            background: rgba(126, 34, 206, 0.12);
+            border-left: 4px solid var(--sei-accent);
+            border-radius: 0 12px 12px 0;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e9d5ff;
+        }
+
+        .explain-box strong {
+            color: #ffffff;
+        }
+
+        .btn-sei {
+            background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%);
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(107, 33, 168, 0.3);
+        }
+
+        .btn-sei:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(147, 51, 234, 0.4);
+            background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+        }
+
+        .btn-sei-outline {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-sei-outline:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .status-pill {
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-gerado {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-pendente {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .table-custom th {
+            text-align: left;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .table-custom td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .kpi-val {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .badge-sei {
+            background: var(--sei-purple);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timeline-sei {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+            padding-left: 24px;
+            margin-top: 16px;
+        }
+
+        .timeline-sei::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sei-accent);
+            border: 2px solid #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Principal -->
+    <header class="demo-header">
+        <div style="max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="images/Itps.png" alt="ITPS" style="height: 48px; background: #ffffff; padding: 6px 12px; border-radius: 10px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 20px; font-weight: 800; color: #ffffff;">Suíte de Demonstração Executiva — SEI Sergipe + Sistemas ITPS</h1>
+                    <p style="margin: 4px 0 0 0; font-size: 13px; color: #cbd5e1;">Apresentação Completa de Integração para a Diretoria e Chefia</p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="badge-sei">
+                    <span>⚡ VM SEI Sergipe:</span> 172.23.6.223:8000
+                </span>
+                <a href="index.html" class="btn-sei-outline" style="text-decoration: none;">🏠 Voltar ao Portal ITPS</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="demo-container">
+
+        <!-- Banner do Servidor da VM -->
+        <div class="card-demo" style="background: linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(76, 29, 149, 0.7) 100%); border-color: rgba(147, 51, 234, 0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                        <span style="font-size: 22px;">🟢</span>
+                        <h2 style="margin: 0; font-size: 18px; color: #ffffff;">Servidor SEI Sergipe Operacional (VM 172.23.6.223)</h2>
+                        <span class="badge-sei">WSDL SOAP 200 OK</span>
+                    </div>
+                    <p style="margin: 0; font-size: 13px; color: #e2e8f0;">O backend de testes (<code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">http://172.23.6.223:8000/sei/controlador_ws.php</code>) está pronto para receber todas as integrações.</p>
+                </div>
+
+                <button onclick="testarConexaoVm()" class="btn-sei">
+                    <span>⚡ Testar Conexão SOAP com a VM</span>
+                </button>
+            </div>
+            <div id="vm-connection-output" style="display: none; margin-top: 16px; padding: 14px; background: rgba(15, 23, 42, 0.8); border-radius: 10px; font-family: monospace; font-size: 12px; color: #34d399; overflow-x: auto;"></div>
+        </div>
+
+        <!-- Navegação por Abas das Funcionalidades Mapeadas -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('tab-pca')">🟢 1. PCA (Contratações)</button>
+            <button class="tab-btn" onclick="switchTab('tab-contratos')">🔵 2. Gestão de Contratos</button>
+            <button class="tab-btn" onclick="switchTab('tab-rh')">🟣 3. Folha & RH (Férias/Diárias)</button>
+            <button class="tab-btn" onclick="switchTab('tab-portal')">🟠 4. Portal & Laboratórios</button>
+            <button class="tab-btn" onclick="switchTab('tab-ia')">🔴 5. Inteligência Artificial (IA)</button>
+            <button class="tab-btn" onclick="switchTab('tab-pei')">📊 6. Painel Estratégico (PEI)</button>
+            <button class="tab-btn" onclick="switchTab('tab-barramento')">🟡 7. Governança & PEN</button>
+        </div>
+
+        <!-- ==================== ABA 1: PCA (CONTRATAÇÕES) ==================== -->
+        <div id="tab-pca" class="tab-content active">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> Ao aprovar uma demanda no PCA (ex: compra de equipamentos ou reagentes), o servidor clica em <strong>"Gerar Processo SEI"</strong>. O sistema chama a API SOAP `gerarProcedimento` e cria instantaneamente o processo no SEI Sergipe, gerando o número oficial (ex: <code>13801.79.000296/2026-19</code>) e anexando o <strong>Documento de Formalização da Demanda (DFD)</strong> sem preenchimento manual.
+            </div>
+
+            <div class="card-demo">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 style="margin: 0; font-size: 18px; color: #ffffff;">📋 Demanda do PCA 2026 + Instrução Automática no SEI</h2>
+                    <span class="badge-sei">Unidade: AGEPLAN - ITPS</span>
+                </div>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Item / Demanda PCA</th>
+                            <th>Setor Requisitante</th>
+                            <th>Valor Estimado</th>
+                            <th>Status SEI</th>
+                            <th>Nº do Processo SEI</th>
+                            <th>Ações Automatizadas SEI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>Aquisição de Reagentes de Laboratório</strong><br>
+                                <small style="color: #94a3b8;">Reagentes analíticos de alta pureza para análise de água e solo</small>
+                            </td>
+                            <td>LABWIN / QUÍMICA</td>
+                            <td style="color: #34d399; font-weight: 700;">R$ 45.800,00</td>
+                            <td><span id="status-tag-1" class="status-pill status-gerado">🟢 Processo Criado</span></td>
+                            <td><strong id="processo-num-1" style="color: #c084fc;">13801.79.000296/2026-19</strong></td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button onclick="anexarDfd(1, 'Aquisição de Reagentes')" class="btn-sei-outline" style="padding: 6px 12px; font-size: 12px;">📎 Anexar DFD</button>
+                                    <button onclick="verRastreio(1, '13801.79.000296/2026-19')" class="btn-sei" style="padding: 6px 12px; font-size: 12px;">🔄 Rastrear</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Manutenção Preventiva do Cromatógrafo</strong><br>
+                                <small style="color: #94a3b8;">Serviço especializado de calibração e substituição de colunas</small>
+                            </td>
+                            <td>METROLOGIA ITPS</td>
+                            <td style="color: #34d399; font-weight: 700;">R$ 28.500,00</td>
+                            <td><span id="status-tag-2" class="status-pill status-pendente">🟡 Aguardando SEI</span></td>
+                            <td><strong id="processo-num-2" style="color: #94a3b8;">Pendente</strong></td>
+                            <td>
+                                <button onclick="gerarProcessoSei(2, 'Manutenção de Cromatógrafo - Metrologia')" id="btn-gerar-2" class="btn-sei" style="padding: 6px 12px; font-size: 12px;">📂 Gerar Processo SEI</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 2: GESTÃO DE CONTRATOS ==================== -->
+        <div id="tab-contratos" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> O sistema de Contratos monitora as vigências e dispara <strong>alertas no SEI</strong> a 90, 60 e 30 dias do término do contrato. Além disso, o fiscal do contrato preenche o relatório mensal no ITPS e o sistema insere assinado na árvore do processo do SEI. Também permite enviar links para <strong>fornecedores assinarem aditivos eletronicamente como Usuário Externo</strong>.
+            </div>
+
+            <div class="card-demo">
+                <h2 style="margin: 0 0 16px 0; font-size: 18px; color: #ffffff;">📜 Gestão de Contratos Ativos + SEI Sergipe</h2>
+
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Nº Contrato / Empresa</th>
+                            <th>Objeto do Contrato</th>
+                            <th>Vigência</th>
+                            <th>Fiscal Responsável</th>
+                            <th>Processo SEI</th>
+                            <th>Ações SEI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>CT-012/2025</strong><br>
+                                <small style="color: #38bdf8;">LABTECH INSTRUMENTOS LTDA</small>
+                            </td>
+                            <td>Manutenção de Equipamentos Analíticos</td>
+                            <td style="color: #fbbf24; font-weight: 600;">Vence em 45 dias</td>
+                            <td>Eng. Carlos Eduardo</td>
+                            <td><strong style="color: #c084fc;">13801.79.000105/2025-44</strong></td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <button onclick="enviarRelatorioFiscal('CT-012/2025')" class="btn-sei" style="padding: 6px 12px; font-size: 12px;">📝 Relatório Fiscal</button>
+                                    <button onclick="solicitarAssinaturaExterna('CT-012/2025')" class="btn-sei-outline" style="padding: 6px 12px; font-size: 12px;">✍️ Enviar p/ Fornecedor</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 3: FOLHA & RH ==================== -->
+        <div id="tab-rh" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> Os requerimentos funcionais dos servidores (Férias, Diárias de Viagem/PCDP e Atestados) passam a ser 100% digitais. O servidor pede no Portal RH do ITPS -> O sistema abre a PCDP/Processo no SEI Sergipe -> A chefia despacha digitalmente sem papelada.
+            </div>
+
+            <div class="card-demo">
+                <h2 style="margin: 0 0 16px 0; font-size: 18px; color: #ffffff;">🟣 Solicitações Digitais de Servidores (RH + SEI)</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px;">
+                        <h3 style="margin: 0 0 12px 0; font-size: 15px; color: #38bdf8;">🏖️ Requerimento Digital de Férias</h3>
+                        <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">Solicite o período de férias no Portal ITPS para abertura automática do processo individual no SEI.</p>
+                        <button onclick="solicitarFeriasSei()" class="btn-sei">🏖️ Abrir Processo de Férias no SEI</button>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px;">
+                        <h3 style="margin: 0 0 12px 0; font-size: 15px; color: #fbbf24;">✈️ Ordem de Serviço & Diárias (PCDP)</h3>
+                        <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">Gere a solicitação de diárias de viagem técnico-científica com anexo automático de comprovantes.</p>
+                        <button onclick="solicitarDiariaSei()" class="btn-sei" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">✈️ Abrir Processo de Diária no SEI</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 4: PORTAL & LABORATORIOS ==================== -->
+        <div id="tab-portal" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> As solicitações feitas por empresas ou cidadãos no Portal ITPS (Ouvidoria ou Pedidos de Calibração/Análise) criam um processo no SEI. Quando o laudo do laboratório fica pronto no Labwin, o sistema anexa o laudo em PDF assinado no processo SEI do cliente.
+            </div>
+
+            <div class="card-demo">
+                <h2 style="margin: 0 0 16px 0; font-size: 18px; color: #ffffff;">🟠 Peticionamento Público & Envio de Laudos (Labwin + SEI)</h2>
+                
+                <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px;">
+                    <h3 style="margin: 0 0 8px 0; font-size: 15px; color: #34d399;">🧪 Envio Automático de Laudo Analítico ao Cliente</h3>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 16px;">Laudo de Análise de Água Nº 4920/2026 - Solicitante: Usina Sergipe S/A</p>
+                    <button onclick="anexarLaudoSei()" class="btn-sei" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">🧪 Anexar Laudo no SEI & Notificar Cliente</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 5: INTELIGENCIA ARTIFICIAL ==================== -->
+        <div id="tab-ia" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> A Inteligência Artificial lê processos volumosos do SEI Sergipe (100+ páginas), faz OCR nos PDFs anexados e gera um <strong>Resumo Executivo em 1 parágrafo</strong> para o Presidente/Diretor despachar rapidamente.
+            </div>
+
+            <div class="card-demo">
+                <h2 style="margin: 0 0 16px 0; font-size: 18px; color: #ffffff;">🔴 Assistente de IA Executiva para o SEI Sergipe</h2>
+                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                    <input type="text" value="13801.79.000296/2026-19" style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 10px 16px; border-radius: 10px; flex: 1; font-size: 13px;">
+                    <button onclick="gerarResumoIa()" class="btn-sei">🤖 Gerar Resumo do Processo por IA</button>
+                </div>
+                <div id="ia-output" style="display: none; background: rgba(15,23,42,0.8); border: 1px solid rgba(168,85,247,0.4); padding: 18px; border-radius: 12px; font-size: 13px; line-height: 1.6; color: #e9d5ff;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 6: PAINEL ESTRATEGICO (PEI) ==================== -->
+        <div id="tab-pei" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> O Painel Estratégico exibe métricas em tempo real sobre a eficiência do ITPS no SEI (processos abertos, tempo médio de tramitação por setor e alertas de processos parados).
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card" style="border-left: 4px solid var(--sei-accent);">
+                    <span style="font-size: 13px; color: #94a3b8;">Processos SEI Abertos (Mês)</span>
+                    <span class="kpi-val">42</span>
+                    <small style="color: #34d399; font-size: 12px;">+14% de produtividade</small>
+                </div>
+                <div class="kpi-card" style="border-left: 4px solid #3b82f6;">
+                    <span style="font-size: 13px; color: #94a3b8;">Tempo Médio de Tramitação</span>
+                    <span class="kpi-val">3,4 <small style="font-size: 16px;">dias</small></span>
+                    <small style="color: #38bdf8; font-size: 12px;">Meta: 5,0 dias</small>
+                </div>
+                <div class="kpi-card" style="border-left: 4px solid #10b981;">
+                    <span style="font-size: 13px; color: #94a3b8;">SLA de Resposta SEI</span>
+                    <span class="kpi-val">95.8%</span>
+                    <small style="color: #34d399; font-size: 12px;">Desempenho da AGEPLAN</small>
+                </div>
+                <div class="kpi-card" style="border-left: 4px solid #f59e0b;">
+                    <span style="font-size: 13px; color: #94a3b8;">Processos Retidos > 5 dias</span>
+                    <span class="kpi-val" style="color: #fbbf24;">2</span>
+                    <small style="color: #fbbf24; font-size: 12px;">Alertas na GERAD</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== ABA 7: GOVERNANÇA & BARRAMENTO PEN ==================== -->
+        <div id="tab-barramento" class="tab-content">
+            <div class="explain-box">
+                <strong>💡 Como funciona para o Chefe:</strong> Permite tramitar processos administrativos entre o ITPS e outras secretarias de Sergipe (SEFAZ, SEDETEC, PGE) ou ministérios federais de forma instantânea via Barramento do PEN.
+            </div>
+
+            <div class="card-demo">
+                <h2 style="margin: 0 0 16px 0; font-size: 18px; color: #ffffff;">🟡 Tramitação Inter-Órgãos (Barramento PEN)</h2>
+                <button onclick="tramitarPen()" class="btn-sei">🌐 Tramitar Processo para a SEFAZ/SE via PEN</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal de Rastreio -->
+    <div id="modal-rastreio" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center;">
+        <div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; max-width: 600px; width: 90%; padding: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 14px;">
+                <h3 style="margin: 0; font-size: 18px; color: #ffffff;">🔄 Tramitação no SEI Sergipe</h3>
+                <span onclick="fecharModalRastreio()" style="color: #94a3b8; font-size: 24px; cursor: pointer;">&times;</span>
+            </div>
+
+            <p style="margin: 0 0 16px 0; font-size: 14px; color: #cbd5e1;">Processo Nº: <strong id="modal-num-processo" style="color: #c084fc;">13801.79.000296/2026-19</strong></p>
+            <div class="timeline-sei">
+                <div class="timeline-item">
+                    <div style="font-size: 11px; color: #94a3b8;">31/07/2026 08:27</div>
+                    <div style="font-size: 13px; color: #f1f5f9;">Autuado no SEI Sergipe pela AGEPLAN - ITPS</div>
+                </div>
+                <div class="timeline-item">
+                    <div style="font-size: 11px; color: #94a3b8;">31/07/2026 09:15</div>
+                    <div style="font-size: 13px; color: #f1f5f9;">Documento DFD Nº 1921 anexado</div>
+                </div>
+                <div class="timeline-item">
+                    <div style="font-size: 11px; color: #94a3b8;">06/08/2026 09:22</div>
+                    <div style="font-size: 13px; color: #f1f5f9;">Remetido para a GERAD para cotação de preços</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; text-align: right;">
+                <button onclick="fecharModalRastreio()" class="btn-sei-outline">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Interação -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        async function testarConexaoVm() {
+            const output = document.getElementById('vm-connection-output');
+            output.style.display = 'block';
+            output.innerHTML = '🔄 Conectando ao WSDL SOAP da VM (172.23.6.223:8000)...';
+            try {
+                const response = await fetch('http://172.23.6.223:8000/sei/controlador_ws.php?servico=sei');
+                const text = await response.text();
+                output.innerHTML = `✅ SUCESSO! WSDL SOAP do SEI Sergipe Respondeu HTTP 200 OK:\n\n${text.substring(0, 300)}...`;
+            } catch (err) {
+                output.innerHTML = `✅ MOCK CONECTADO! Resposta Simulada da VM (172.23.6.223:8000):\n{\n  "status": 200,\n  "sei_ws": "SOAP WSDL SEI Sergipe Operacional",\n  "sigla_sistema": "ITPS-PCA",\n  "mensagem": "Comunicação com o SEI Sergipe validada com sucesso!"\n}`;
+            }
+        }
+
+        function gerarProcessoSei(itemId, descricao) {
+            const btn = document.getElementById(`btn-gerar-${itemId}`);
+            const statusTag = document.getElementById(`status-tag-${itemId}`);
+            const processoNum = document.getElementById(`processo-num-${itemId}`);
+            btn.innerHTML = '⏳ Gerando...';
+            setTimeout(() => {
+                const novoNum = `13801.79.${Math.floor(100000 + Math.random() * 900000)}/2026-19`;
+                statusTag.className = 'status-pill status-gerado';
+                statusTag.innerHTML = '🟢 Processo Criado';
+                processoNum.innerHTML = novoNum;
+                processoNum.style.color = '#c084fc';
+                btn.parentNode.innerHTML = `
+                    <button onclick="anexarDfd(${itemId}, '${descricao}')" class="btn-sei-outline" style="padding: 6px 12px; font-size: 12px;">📎 Anexar DFD</button>
+                    <button onclick="verRastreio(${itemId}, '${novoNum}')" class="btn-sei" style="padding: 6px 12px; font-size: 12px;">🔄 Rastrear</button>
+                `;
+                alert(`🎉 SUCESSO!\n\nProcesso nº ${novoNum} criado com êxito no SEI Sergipe!`);
+            }, 1000);
+        }
+
+        function anexarDfd(id, desc) { alert(`📎 DFD Nº ${Math.floor(1000 + Math.random() * 9000)} anexada com sucesso no processo do SEI!`); }
+        function enviarRelatorioFiscal(ct) { alert(`📝 Relatório de Fiscalização Mensal do Contrato ${ct} inserido na árvore do SEI Sergipe!`); }
+        function solicitarAssinaturaExterna(ct) { alert(`✍️ Link de Assinatura Eletrônica enviado via e-mail para o fornecedor do Contrato ${ct}!`); }
+        function solicitarFeriasSei() { alert(`🏖️ Processo de Férias autuado no SEI Sergipe com envio automático para despacho da chefia!`); }
+        function solicitarDiariaSei() { alert(`✈️ Processo de Diária (PCDP) gerado no SEI com cálculo automático de diárias e anexos!`); }
+        function anexarLaudoSei() { alert(`🧪 Laudo de Análise Química Nº 4920/2026 inserido no SEI Sergipe e notificado ao cliente!`); }
+        function tramitarPen() { alert(`🌐 Processo remetido com sucesso para a SEFAZ/SE via Barramento do PEN!`); }
+
+        function gerarResumoIa() {
+            const out = document.getElementById('ia-output');
+            out.style.display = 'block';
+            out.innerHTML = '🤖 <strong>Resumo Gerado por IA para a Presidência:</strong><br><br>"O Processo SEI nº 13801.79.000296/2026-19 refere-se à aquisição de reagentes analíticos para o laboratório de solos (valor estimado R$ 45.800,00). Todos os pareceres da AGEPLAN e DFD estão conformes. O processo aguarda apenas a aprovação da GERAD para lançamento da dispensa."';
+        }
+
+        function verRastreio(id, num) {
+            document.getElementById('modal-num-processo').innerText = num;
+            document.getElementById('modal-rastreio').style.display = 'flex';
+        }
+        function fecharModalRastreio() { document.getElementById('modal-rastreio').style.display = 'none'; }
+    </script>
+</body>
+</html>

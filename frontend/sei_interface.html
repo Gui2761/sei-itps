@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEI / SE - Sistema Eletrônico de Informações | Governo de Sergipe</title>
+    <link rel="icon" type="image/png" href="images/sei.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Open Sans', Arial, sans-serif; background-color: #f1f5f9; color: #334155; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+        /* Top Header Oficial SEI Sergipe */
+        .sei-top-bar {
+            background: linear-gradient(135deg, #4c1d95 0%, #581c87 50%, #6b21a8 100%);
+            color: #ffffff;
+            height: 52px;
+            padding: 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .sei-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sei-brand-logo {
+            background: #ffffff;
+            color: #581c87;
+            font-weight: 900;
+            font-size: 16px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .sei-search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            padding: 4px 10px;
+            width: 320px;
+        }
+
+        .sei-search-box input {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            width: 100%;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .sei-search-box input::placeholder { color: rgba(255,255,255,0.7); }
+
+        .sei-user-unit {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 12px;
+        }
+
+        .unit-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* Sub-Header de Ações Rápidas */
+        .sei-sub-bar {
+            background: #e2e8f0;
+            border-bottom: 1px solid #cbd5e1;
+            height: 38px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .sei-tool-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sei-tool-btn:hover { background: #f8fafc; border-color: #94a3b8; }
+
+        /* Workspace Principal Layout 2 Colunas */
+        .sei-workspace {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 90px);
+            overflow: hidden;
+        }
+
+        /* Coluna Esquerda: Árvore do Processo */
+        .sei-tree-sidebar {
+            width: 340px;
+            background: #ffffff;
+            border-right: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .tree-header {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .process-title-chip {
+            font-size: 14px;
+            font-weight: 800;
+            color: #581c87;
+            margin-bottom: 4px;
+        }
+
+        .process-meta {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .tree-list {
+            list-style: none;
+            padding: 8px;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #334155;
+            margin-bottom: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .tree-item:hover { background: #f1f5f9; }
+        .tree-item.active { background: #f3e8ff; color: #581c87; font-weight: 700; border-left: 3px solid #7e22ce; }
+
+        /* Coluna Direita: Visualizador de Documentos (Leitor Oficial) */
+        .sei-doc-viewer {
+            flex: 1;
+            background: #cbd5e1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Folha A4 do Documento SEI Oficial */
+        .sei-paper-a4 {
+            background: #ffffff;
+            width: 800px;
+            min-height: 1050px;
+            padding: 48px 56px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            font-family: 'Open Sans', Arial, sans-serif;
+            color: #000000;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .gov-header {
+            text-align: center;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .gov-header h3 { font-size: 14px; text-transform: uppercase; font-weight: 800; margin-bottom: 2px; }
+        .gov-header h4 { font-size: 12px; text-transform: uppercase; font-weight: 700; color: #333333; }
+        .gov-header p { font-size: 11px; color: #555555; }
+
+        .doc-title-block {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .doc-title-block h2 { font-size: 16px; font-weight: 800; text-transform: uppercase; text-decoration: underline; }
+        .doc-title-block p { font-size: 12px; font-weight: 700; color: #444444; margin-top: 4px; }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 12px;
+        }
+
+        .doc-table th, .doc-table td {
+            border: 1px solid #000000;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .doc-table th { background: #f1f5f9; font-weight: 700; }
+
+        .sei-seal {
+            margin-top: 40px;
+            border-top: 1px dashed #999;
+            padding-top: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            font-size: 11px;
+            color: #333;
+        }
+
+        .qr-placeholder {
+            width: 64px;
+            height: 64px;
+            background: #eee;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Oficial SEI Sergipe -->
+    <header class="sei-top-bar">
+        <div class="sei-brand">
+            <span class="sei-brand-logo">SEI</span>
+            <span style="font-size: 14px; font-weight: 700;">GOVERNO DO ESTADO DE SERGIPE</span>
+        </div>
+
+        <div class="sei-search-box">
+            <input type="text" id="sei-search-input" placeholder="Pesquisar processo..." value="13801.79.000412/2027-19">
+            <span style="cursor: pointer;">🔍</span>
+        </div>
+
+        <div class="sei-user-unit">
+            <span>Usuário: <strong>GILVAN SILVA</strong></span>
+            <span class="unit-badge">Unidade: AGEPLAN - ITPS</span>
+            <a href="index.html" style="color: #ffffff; text-decoration: none; font-size: 11px; background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 3px;">🏠 Sair ao Portal</a>
+        </div>
+    </header>
+
+    <!-- Sub-Header com Seletor de Processos e Ferramentas SEI -->
+    <div class="sei-sub-bar">
+        <label style="font-weight: 700;">Processo Selecionado no SEI:</label>
+        <select id="select-processo-sei" onchange="trocarProcessoSei(this.value)" style="padding: 3px 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 12px; font-weight: 700; color: #581c87;">
+            <option value="PCA_2027_01">13801.79.000412/2027-19 [PCA 2027 - Reagentes de Solo]</option>
+            <option value="PCA_2027_02">13801.79.000240/2027-19 [PCA 2027 - Espectrômetro]</option>
+            <option value="CONTRATOS_01">13801.79.000105/2025-44 [Contrato CT-012/2025 Labtech]</option>
+            <option value="RH_FERIAS">13801.79.000392/2026-10 [RH - Requerimento de Férias]</option>
+            <option value="RH_DIARIA">13801.79.000511/2026-15 [RH - PCDP Diárias de Viagem]</option>
+        </select>
+
+        <div style="margin-left: auto; display: flex; gap: 6px;">
+            <button class="sei-tool-btn" onclick="alert('Documento Assinado Eletronicamente no SEI Sergipe!')">✍️ Assinar Documento</button>
+            <button class="sei-tool-btn" onclick="alert('Processo Remetido para a GERAD - ITPS com sucesso!')">📤 Tramitar / Enviar</button>
+            <button class="sei-tool-btn" onclick="alert('PDF Oficial do Processo SEI Gerado com Sucesso!')">🖨️ Imprimir / PDF</button>
+        </div>
+    </div>
+
+    <!-- Layout Principal do SEI Sergipe -->
+    <div class="sei-workspace">
+
+        <!-- Coluna Esquerda: Árvore de Documentos do Processo SEI -->
+        <div class="sei-tree-sidebar">
+            <div class="tree-header">
+                <div id="tree-proc-num" class="process-title-chip">📁 13801.79.000412/2027-19</div>
+                <div id="tree-proc-spec" class="process-meta">Especificação: Aquisição de Reagentes P.A. (PCA 2027)</div>
+                <div class="process-meta">Interessado: ITPS - Instituto Tecnológico de Sergipe</div>
+            </div>
+
+            <ul class="tree-list" id="tree-doc-list">
+                <li class="tree-item active" onclick="selecionarDoc(this, 'DFD')">
+                    <span>📄</span>
+                    <div>
+                        <strong id="tree-dfd-name">DFD 2027 (Nº 8492)</strong><br>
+                        <small style="color: #64748b;">Formalização da Demanda</small>
+                    </div>
+                </li>
+                <li class="tree-item" onclick="selecionarDoc(this, 'DESPACHO')">
+                    <span>📄</span>
+                    <div>
+                        <strong>Despacho AGEPLAN (Nº 19201)</strong><br>
+                        <small style="color: #64748b;">Instrução Inicial PCA</small>
+                    </div>
+                </li>
+                <li class="tree-item" onclick="selecionarDoc(this, 'ETP')">
+                    <span>📄</span>
+                    <div>
+                        <strong>Estudo Técnico (ETP Nº 3910)</strong><br>
+                        <small style="color: #64748b;">Análise de Viabilidade</small>
+                    </div>
+                </li>
+                <li class="tree-item" onclick="selecionarDoc(this, 'COTACAO')">
+                    <span>📄</span>
+                    <div>
+                        <strong>Pesquisa de Preços (Nº 4022)</strong><br>
+                        <small style="color: #64748b;">Mapa Comparativo</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Coluna Direita: Visualizador de Documentos Oficiais do SEI -->
+        <div class="sei-doc-viewer">
+            <div class="sei-paper-a4" id="paper-content">
+
+                <!-- Timbre do Governo do Estado de Sergipe / ITPS -->
+                <div class="gov-header">
+                    <h3>GOVERNO DO ESTADO DE SERGIPE</h3>
+                    <h4>INSTITUTO TECNOLÓGICO E DE PESQUISAS DO ESTADO DE SERGIPE - ITPS</h4>
+                    <p>Assessoria de Gestão e Planejamento - AGEPLAN | Rua Campo do Brito, 371 - Aracaju/SE</p>
+                </div>
+
+                <!-- Título do Documento Oficial -->
+                <div class="doc-title-block">
+                    <h2 id="doc-main-title">DOCUMENTO DE FORMALIZAÇÃO DA DEMANDA - DFD Nº 8492/2027</h2>
+                    <p id="doc-main-sub">PROCESSO SEI Nº: 13801.79.000412/2027-19 | EXERCÍCIO: PCA 2027</p>
+                </div>
+
+                <div id="doc-body-html">
+                    <p><strong>1. SETOR REQUISITANTE:</strong> LABWIN / QUÍMICA ANALÍTICA - ITPS</p>
+                    <p><strong>2. RESPONSÁVEL PELA DEMANDA:</strong> Dra. Mariana Santos (Pesquisadora em Chefe)</p>
+                    <p><strong>3. DESCRIÇÃO SUCINTA DO OBJETO:</strong> Aquisição de Reagentes Químicos P.A. (Grau Espectroscópico) para suporte às análises de solo e água no exercício de 2027.</p>
+                    
+                    <h4 style="margin-top: 16px; font-size: 13px; font-weight: 700;">4. DETALHAMENTO DOS ITENS SOLICITADOS (PCA 2027):</h4>
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Descrição Detalhada do Reagente</th>
+                                <th>Unidade</th>
+                                <th>Qtd</th>
+                                <th>Valor Est. Unit.</th>
+                                <th>Valor Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01</td>
+                                <td>Ácido Nítrico 65% P.A. para Análise de Metais Pesados</td>
+                                <td>Frasco 1L</td>
+                                <td>40</td>
+                                <td>R$ 450,00</td>
+                                <td>R$ 18.000,00</td>
+                            </tr>
+                            <tr>
+                                <td>02</td>
+                                <td>Padrão Multielementar para Espectrometria ICP-OES</td>
+                                <td>Ampola 100ml</td>
+                                <td>10</td>
+                                <td>R$ 3.400,00</td>
+                                <td>R$ 34.000,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>5. ESTIMATIVA DO VALOR TOTAL DA CONTRATAÇÃO:</strong> <strong style="color: #059669;">R$ 52.000,00 (Cinquenta e dois mil reais)</strong></p>
+                    <p><strong>6. JUSTIFICATIVA DA NECESSIDADE:</strong> A aquisição é indispensável para a manutenção dos ensaios de qualidade da água e fertilidade do solo prestados ao setor produtivo de Sergipe.</p>
+                    <p><strong>7. ALINHAMENTO ESTRATÉGICO PEI:</strong> Meta PEI-2027 nº 04: Manter 100% dos laboratórios acreditados e operacionais.</p>
+                </div>
+
+                <!-- Selo de Assinatura Eletrônica Oficial do SEI -->
+                <div class="sei-seal">
+                    <div class="qr-placeholder">QR CODE SEI</div>
+                    <div>
+                        <strong>Documento Assinado Eletronicamente no SEI Sergipe</strong><br>
+                        Assinado por <strong>GILVAN SILVA</strong>, Técnico em Informática em 02/01/2027 às 09:15, conforme decreto estadual.<br>
+                        A autenticidade deste documento pode ser conferida no site <span style="color: #581c87; text-decoration: underline;">https://seisergipe.se.gov.br/autenticidade</span> informando o código verificador <strong>8492019</strong> e o código CRC <strong>F9A2C81B</strong>.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts de Leitura Dinâmica dos Parâmetros do Processo Exato -->
+    <script>
+        const dadosProcessos = {
+            PCA_2027_01: {
+                num: '13801.79.000412/2027-19',
+                spec: 'Aquisição de Reagentes P.A. (PCA 2027)',
+                title: 'DOCUMENTO DE FORMALIZAÇÃO DA DEMANDA - DFD Nº 8492/2027',
+                html: `
+                    <p><strong>1. SETOR REQUISITANTE:</strong> LABWIN / QUÍMICA ANALÍTICA - ITPS</p>
+                    <p><strong>2. RESPONSÁVEL PELA DEMANDA:</strong> Dra. Mariana Santos</p>
+                    <p><strong>3. DESCRIÇÃO SUCINTA DO OBJETO:</strong> Aquisição de Reagentes Químicos P.A. para suporte às análises de solo e água no exercício de 2027.</p>
+                    <h4 style="margin-top: 16px; font-size: 13px; font-weight: 700;">4. DETALHAMENTO DOS ITENS SOLICITADOS (PCA 2027):</h4>
+                    <table class="doc-table">
+                        <thead><tr><th>Item</th><th>Descrição</th><th>Unidade</th><th>Qtd</th><th>Valor Total</th></tr></thead>
+                        <tbody>
+                            <tr><td>01</td><td>Ácido Nítrico 65% P.A. Análise de Metais</td><td>Frasco 1L</td><td>40</td><td>R$ 18.000,00</td></tr>
+                            <tr><td>02</td><td>Padrão Multielementar ICP-OES</td><td>Ampola 100ml</td><td>10</td><td>R$ 34.000,00</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>5. VALOR TOTAL ESTIMADO:</strong> <strong style="color: #059669;">R$ 52.000,00</strong></p>
+                `
+            },
+            PCA_2027_02: {
+                num: '13801.79.000240/2027-19',
+                spec: 'Manutenção Preventiva de Espectrômetro (PCA 2027)',
+                title: 'DOCUMENTO DE FORMALIZAÇÃO DA DEMANDA - DFD Nº 8510/2027',
+                html: `
+                    <p><strong>1. SETOR REQUISITANTE:</strong> METROLOGIA ITPS</p>
+                    <p><strong>2. OBJETO:</strong> Manutenção preventiva e calibração de Espectrômetro de Absorção Atômica.</p>
+                    <p><strong>3. VALOR TOTAL ESTIMADO:</strong> <strong style="color: #059669;">R$ 34.500,00</strong></p>
+                `
+            },
+            CONTRATOS_01: {
+                num: '13801.79.000105/2025-44',
+                spec: 'Gestão do Contrato CT-012/2025 (Labtech)',
+                title: 'RELATÓRIO MENSAL DE FISCALIZAÇÃO CONTRATUAL - Nº 12/2026',
+                html: `
+                    <p><strong>1. CONTRATO:</strong> CT-012/2025 | LABTECH INSTRUMENTOS ANALÍTICOS LTDA</p>
+                    <p><strong>2. FISCAL DO CONTRATO:</strong> Eng. Carlos Eduardo</p>
+                    <p><strong>3. AVALIAÇÃO DO SERVIÇO:</strong> Serviço executado em conformidade com as cláusulas contratuais. Aprovada a liquidação da fatura mensal.</p>
+                `
+            },
+            RH_FERIAS: {
+                num: '13801.79.000392/2026-10',
+                spec: 'Requerimento de Férias de Servidor',
+                title: 'REQUERIMENTO ELETRÔNICO DE FÉRIAS - SERVIDOR',
+                html: `
+                    <p><strong>1. SERVIDOR:</strong> GILVAN SILVA</p>
+                    <p><strong>2. CARGO:</strong> TÉCNICO EM INFORMATICA | MATRÍCULA: 49201</p>
+                    <p><strong>3. PERÍODO SOLICITADO:</strong> 01/09/2026 a 30/09/2026 (30 DIAS)</p>
+                    <p><strong>4. DESPACHO DA CHEFIA:</strong> DEFERIDO. Encaminhado para inclusão na folha de pagamento.</p>
+                `
+            },
+            RH_DIARIA: {
+                num: '13801.79.000511/2026-15',
+                spec: 'PCDP - Concessão de Diárias de Viagem',
+                title: 'PROCESSO DE CONCESSÃO DE DIÁRIAS (PCDP) Nº 511/2026',
+                html: `
+                    <p><strong>1. SERVIDORES DESIGNADOS:</strong> Dr. Fernando Lima e Equipe Técnica</p>
+                    <p><strong>2. DESTINO:</strong> Brasília/DF (Reunião Anual da Rede Brasileira de Metrologia Legal - RBMLQ-I)</p>
+                    <p><strong>3. QUANTIDADE DE DIÁRIAS:</strong> 3.5 diárias com passagens aéreas inclusas.</p>
+                `
+            }
+        };
+
+        // PARSER DINÂMICO DOS PARÂMETROS DA URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const procUrl = params.get('proc');
+            const itemUrl = params.get('item');
+
+            if (procUrl && itemUrl) {
+                const dfdNum = Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('sei-search-input').value = procUrl;
+                document.getElementById('tree-proc-num').innerText = '📁 ' + procUrl;
+                document.getElementById('tree-proc-spec').innerText = 'Especificação: ' + itemUrl;
+                document.getElementById('tree-dfd-name').innerText = `DFD 2027 (Nº ${dfdNum})`;
+                document.getElementById('doc-main-title').innerText = `DOCUMENTO DE FORMALIZAÇÃO DA DEMANDA - DFD Nº ${dfdNum}/2027`;
+                document.getElementById('doc-main-sub').innerText = `PROCESSO SEI Nº: ${procUrl} | EXERCÍCIO: PCA 2027`;
+
+                document.getElementById('doc-body-html').innerHTML = `
+                    <p><strong>1. SETOR REQUISITANTE:</strong> ITPS SERGIPE - AGEPLAN / ITPS</p>
+                    <p><strong>2. PROCESSO SEI AUTUADO:</strong> <strong style="color: #581c87; font-family: monospace; font-size: 14px;">${procUrl}</strong></p>
+                    <p><strong>3. DEMANDA DO PCA 2027:</strong> <strong style="color: #000000;">${itemUrl}</strong></p>
+                    <p><strong>4. RESPONSÁVEL PELA INSTRUÇÃO:</strong> GILVAN SILVA (Técnico de TI ITPS)</p>
+                    
+                    <h4 style="margin-top: 18px; font-size: 13px; font-weight: 700;">5. DETALHAMENTO DO OBJETO AUTUADO NO SEI SERGIPE:</h4>
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Descrição da Demanda Solicitada</th>
+                                <th>Unidade</th>
+                                <th>Qtd</th>
+                                <th>Status da Autuação WSDL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>01</td>
+                                <td><strong>${itemUrl}</strong></td>
+                                <td>Serviço/Lote</td>
+                                <td>01</td>
+                                <td><strong style="color: #059669;">🟢 200 OK — AUTUADO COM SUCESSO VIA WEBSERVICE SEI</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>6. DESTINO DO PROCESSO:</strong> Encaminhado para a unidade <strong>AGEPLAN - ITPS</strong> para cotação e instrução da dispensa/licitação.</p>
+                `;
+
+                // Adiciona o processo exato no topo do seletor
+                const select = document.getElementById('select-processo-sei');
+                const opt = document.createElement('option');
+                opt.value = 'CUSTOM';
+                opt.innerText = `${procUrl} [${itemUrl}]`;
+                opt.selected = true;
+                select.prepend(opt);
+            }
+        });
+
+        function trocarProcessoSei(chave) {
+            if(chave === 'CUSTOM') return;
+            const p = dadosProcessos[chave];
+            if(!p) return;
+            document.getElementById('sei-search-input').value = p.num;
+            document.getElementById('tree-proc-num').innerText = '📁 ' + p.num;
+            document.getElementById('tree-proc-spec').innerText = 'Especificação: ' + p.spec;
+            document.getElementById('doc-main-title').innerText = p.title;
+            document.getElementById('doc-main-sub').innerText = 'PROCESSO SEI Nº: ' + p.num;
+            document.getElementById('doc-body-html').innerHTML = p.html;
+        }
+
+        function selecionarDoc(el, tipoDoc) {
+            document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
+</body>
+</html>
